@@ -1,0 +1,14 @@
+# Supabase temporära filer (innehåller projekt-id och kopplad info)
+supabase/.temp/
+
+# Miljövariabler
+.env
+.env.local
+.env*.local
+
+# Node
+node_modules/
+
+# Bygg
+dist/
+build/
