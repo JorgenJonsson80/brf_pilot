@@ -1,18 +1,26 @@
+import { CATEGORIES } from '../lib/categories'
+
 export default function CommitmentCard({ commitment, onMarkDone }) {
   const isDone = commitment.status === 'done'
+  const category = CATEGORIES.find(c => c.value === commitment.category)
 
   return (
-    <div className={`bg-white rounded-xl p-4 shadow-sm border ${isDone ? 'opacity-50' : 'border-gray-100'}`}>
+    <div className={`bg-white rounded-xl p-4 shadow-sm border border-gray-100 ${isDone ? 'opacity-50' : ''}`}>
       <div className="flex justify-between items-start gap-4">
-        <div>
+        <div className="flex flex-col gap-1">
+          {category && (
+            <span className={`text-xs font-medium px-2 py-0.5 rounded-full w-fit ${category.color}`}>
+              {category.label}
+            </span>
+          )}
           <p className={`font-medium text-gray-900 ${isDone ? 'line-through' : ''}`}>
             {commitment.title}
           </p>
-          <p className="text-sm text-gray-500 mt-1">
-            Ansvarig: {commitment.profiles?.full_name ?? '–'}
+          <p className="text-sm text-gray-500">
+            {commitment.profiles?.full_name ?? '–'}
           </p>
           {commitment.meeting_ref && (
-            <p className="text-xs text-gray-400 mt-1">{commitment.meeting_ref}</p>
+            <p className="text-xs text-gray-400">{commitment.meeting_ref}</p>
           )}
         </div>
 
@@ -43,10 +51,8 @@ function DeadlineBadge({ deadline, status }) {
 
   return (
     <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-      isOverdue
-        ? 'bg-red-100 text-red-700'
-        : status === 'done'
-        ? 'bg-gray-100 text-gray-500'
+      isOverdue        ? 'bg-red-100 text-red-700'
+        : status === 'done' ? 'bg-gray-100 text-gray-500'
         : 'bg-blue-50 text-blue-700'
     }`}>
       {label}

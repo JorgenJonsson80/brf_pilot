@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { CATEGORIES } from '../lib/categories'
 
 export default function NewCommitmentForm({ onSave, onCancel }) {
   const [profiles, setProfiles] = useState([])
@@ -10,6 +11,7 @@ export default function NewCommitmentForm({ onSave, onCancel }) {
   const [assignedTo, setAssignedTo] = useState('')
   const [deadline, setDeadline] = useState('')
   const [meetingRef, setMeetingRef] = useState('')
+  const [category, setCategory] = useState('')
 
   useEffect(() => {
     supabase
@@ -38,6 +40,7 @@ export default function NewCommitmentForm({ onSave, onCancel }) {
       assigned_to: assignedTo,
       deadline,
       meeting_ref: meetingRef || null,
+      category: category || null,
       brf_id: profile.brf_id,
     })
 
@@ -78,6 +81,17 @@ export default function NewCommitmentForm({ onSave, onCancel }) {
         required
         className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
       />
+
+      <select
+        value={category}
+        onChange={e => setCategory(e.target.value)}
+        className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+      >
+        <option value="">Välj kategori (valfritt)</option>
+        {CATEGORIES.map(c => (
+          <option key={c.value} value={c.value}>{c.label}</option>
+        ))}
+      </select>
 
       <input
         type="text"
